@@ -6,7 +6,7 @@
     <string name="start_button_text">Start</string>
     <string name="stop_button_text">Stop</string>
     
-    <!-- Preferences strings -->
+    <!-- Preferences -->
     <string name="preferences_title">Settings</string>
     <string name="preference_category_general">General</string>
     <string name="preference_category_about">About</string>
@@ -18,4 +18,8 @@
     <string name="send_feedback_summary">@null</string>
     <string name="version_title">App version</string>
     <string name="version_summary">@null</string>
+    
+    <!-- Notifications -->
+    <string name="foreground_service_title">GravityControls enabled</string>
+    <string name="foreground_service_text">Tap to configure</string>
 </resources>

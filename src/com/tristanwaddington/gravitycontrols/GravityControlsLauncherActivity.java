@@ -22,6 +22,8 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        // TODO: Show/hide the start and/or stop button(s) depending on
+        //       the state of the background service.
         Button startButton = (Button) findViewById(R.id.start_service);
         startButton.setOnClickListener(this);
         

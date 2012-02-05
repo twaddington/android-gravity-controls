@@ -1,5 +1,10 @@
 package com.tristanwaddington.gravitycontrols.service;
 
+import com.tristanwaddington.gravitycontrols.GravityControlsLauncherActivity;
+import com.tristanwaddington.gravitycontrols.R;
+
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -20,6 +25,8 @@ import android.util.Log;
  */
 public class GravityControlsService extends Service implements SensorEventListener {
     public static final String TAG = "GravityControlsService";
+
+    public static final int NOTIFICATION_ID = 1;
 
     public static final float DEVICE_MIN_FACE_UP = 8.5f;
     public static final float DEVICE_MIN_FACE_DOWN = -8.5f;
@@ -99,6 +106,19 @@ public class GravityControlsService extends Service implements SensorEventListen
         if (accelerometer != null) {
             mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
+        
+        final Intent contentIntent = new Intent(this, GravityControlsLauncherActivity.class);
+        contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, contentIntent, 0);
+        
+        // Start the service in the foreground
+        final Notification notification = new Notification();
+        // TODO: Create a notification icon!
+        notification.icon = R.drawable.icon;
+        notification.when = System.currentTimeMillis();
+        notification.setLatestEventInfo(this, getString(R.string.foreground_service_title),
+                        getString(R.string.foreground_service_text), pendingIntent);
+        startForeground(NOTIFICATION_ID, notification);
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
