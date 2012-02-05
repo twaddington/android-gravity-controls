@@ -20,6 +20,7 @@ If you want to build this app from source you can do so using the basic
 ant commands.
 
     $ cd GravityControls
+    $ android update project --path .
     $ ant clean debug
     $ adb install bin/GravityControls-debug.apk
 
