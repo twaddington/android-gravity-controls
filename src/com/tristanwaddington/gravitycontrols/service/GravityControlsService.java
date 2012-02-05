@@ -110,6 +110,7 @@ public class GravityControlsService extends Service implements SensorEventListen
     private void handleCommand(Intent intent) {
         final Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer != null) {
+            // TODO: Should we unregister the listener when no music is streaming?
             mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
         
