@@ -1,6 +1,9 @@
 package com.tristanwaddington.gravitycontrols;
 
+import java.util.List;
+
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,29 +19,22 @@ import com.tristanwaddington.gravitycontrols.service.GravityControlsService;
 public class GravityControlsLauncherActivity extends Activity implements OnClickListener {
     private final String TAG = "GravityControlsLauncherActivity";
     
-    /** Called when the activity is first created. */
+    private Button mStartButton;
+    private Button mStopButton;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        // TODO: Show/hide the start and/or stop button(s) depending on
-        //       the state of the background service.
-        Button startButton = (Button) findViewById(R.id.start_service);
-        startButton.setOnClickListener(this);
+        mStartButton = (Button) findViewById(R.id.start_service);
+        mStartButton.setOnClickListener(this);
         
-        Button stopButton = (Button) findViewById(R.id.stop_service);
-        stopButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+        mStopButton = (Button) findViewById(R.id.stop_service);
+        mStopButton.setOnClickListener(this);
+        
+        // Update the button state
+        setButtonState();
     }
 
     @Override
@@ -66,13 +62,50 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         case R.id.start_service:
             Log.d(TAG, "Start button!");
             startService(intent);
+            
+            // Update the button state
+            setButtonState();
             break;
         case R.id.stop_service:
             Log.d(TAG, "Stop button!");
             stopService(intent);
+            
+            // Update the button state
+            setButtonState();
             break;
         default:
             Log.d(TAG, "Button not implemented yet...");
+        }
+    }
+
+    /**
+     * Determine if the background service is running.
+     * @return true if the service is running, false if otherwise.
+     */
+    public boolean isServiceRunning() {
+        final ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningServiceInfo> services = am.getRunningServices(250);
+        
+        for (ActivityManager.RunningServiceInfo s : services) {
+            Log.d(TAG, s.service.getClassName());
+            if (GravityControlsService.class.getName().equals(s.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Toggle the visibility of the start/stop service buttons
+     * depending on the state of the background service.
+     */
+    public void setButtonState() {
+        if (isServiceRunning()) {
+            mStartButton.setVisibility(View.GONE);
+            mStopButton.setVisibility(View.VISIBLE);
+        } else {
+            mStartButton.setVisibility(View.VISIBLE);
+            mStopButton.setVisibility(View.GONE);
         }
     }
 }
