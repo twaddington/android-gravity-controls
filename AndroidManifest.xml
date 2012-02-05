@@ -7,11 +7,10 @@
     
     <uses-sdk android:minSdkVersion="5" />
     
-    <permission android:name="android.permission.WAKE_LOCK" />
-    
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name">
+        <!-- Activities -->
         <activity
             android:name="com.tristanwaddington.gravitycontrols.LauncherActivity"
             android:label="@string/app_name">
@@ -21,6 +20,7 @@
             </intent-filter>
         </activity>
         
+        <!-- Services -->
         <service android:name=".service.GravityControlsService" />
     </application>
 </manifest> 
