@@ -3,8 +3,8 @@
     <string name="app_name">GravityControls</string>
     
     <!-- Buttons -->
-    <string name="start_button_text">Start</string>
-    <string name="stop_button_text">Stop</string>
+    <string name="start_button_text">Start service</string>
+    <string name="stop_button_text">Stop service</string>
     
     <!-- Preferences -->
     <string name="preferences_title">Settings</string>
@@ -20,6 +20,6 @@
     <string name="version_summary">@null</string>
     
     <!-- Notifications -->
-    <string name="foreground_service_title">GravityControls enabled</string>
+    <string name="foreground_service_title">GravityControls are enabled</string>
     <string name="foreground_service_text">Tap to configure</string>
 </resources>

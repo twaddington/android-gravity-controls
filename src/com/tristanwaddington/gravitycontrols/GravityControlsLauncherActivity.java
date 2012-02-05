@@ -19,6 +19,7 @@ import com.tristanwaddington.gravitycontrols.service.GravityControlsService;
 public class GravityControlsLauncherActivity extends Activity implements OnClickListener {
     private final String TAG = "GravityControlsLauncherActivity";
     
+    private View mMain;
     private Button mStartButton;
     private Button mStopButton;
     
@@ -28,6 +29,12 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         // TODO: Update the main layout background depending on the
         //       state of the background service.
         setContentView(R.layout.main);
+        
+        mMain = findViewById(R.id.main);
+        if (mMain != null) {
+            // Set dithering on the background for a smoother gradient
+            mMain.getBackground().setDither(true);
+        }
         
         mStartButton = (Button) findViewById(R.id.start_service);
         mStartButton.setOnClickListener(this);
@@ -104,9 +111,11 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         if (isServiceRunning()) {
             mStartButton.setVisibility(View.GONE);
             mStopButton.setVisibility(View.VISIBLE);
+            mMain.setBackgroundResource(R.drawable.service_on_bkg);
         } else {
             mStartButton.setVisibility(View.VISIBLE);
             mStopButton.setVisibility(View.GONE);
+            mMain.setBackgroundResource(R.drawable.service_off_bkg);
         }
     }
 }
