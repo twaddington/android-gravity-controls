@@ -12,15 +12,19 @@
         android:label="@string/app_name">
         <!-- Activities -->
         <activity
-            android:name="com.tristanwaddington.gravitycontrols.LauncherActivity"
+            android:name=".LauncherActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity" />
         
         <!-- Services -->
-        <service android:name=".service.GravityControlsService" />
+        <service
+            android:name=".service.GravityControlsService"
+            android:exported="false" />
     </application>
 </manifest> 

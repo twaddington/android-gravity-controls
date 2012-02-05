@@ -1,12 +1,12 @@
 package com.tristanwaddington.gravitycontrols;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +43,25 @@ public class LauncherActivity extends Activity implements OnClickListener {
         super.onPause();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.preferences:
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return false;
+    }
+
     public void onClick(View v) {
         final Intent intent = new Intent(this, GravityControlsService.class);
         switch (v.getId()) {
@@ -60,20 +79,5 @@ public class LauncherActivity extends Activity implements OnClickListener {
         default:
             Log.d(TAG, "Button not implemented yet...");
         }
-    }
-
-    /** Stub */
-    private boolean isServiceRunning() {
-        final ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        final List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(250);
-        for (int i=0; i < rs.size(); i++) {
-            ActivityManager.RunningServiceInfo rsi = rs.get(i);
-            Log.d(TAG, rsi.service.getClassName());
-            Log.d(TAG, GravityControlsService.class.getName());
-            if (GravityControlsService.class.getName().equals(rsi.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -11,7 +11,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-/** Stub */
+/**
+ * A service class for monitoring the device sensors
+ * and controlling the music stream depending on the current
+ * orientation of the device.
+ * 
+ * @author Tristan Waddington <tristan.waddington@gmail.com>
+ */
 public class GravityControlsService extends Service implements SensorEventListener {
     public static final String TAG = "GravityControlsService";
 
@@ -19,7 +25,6 @@ public class GravityControlsService extends Service implements SensorEventListen
     public static final float DEVICE_MIN_FACE_DOWN = -8.5f;
     public static final float DEVICE_MIN_TILT_LEFT = 6.5f;
     public static final float DEVICE_MIN_TILT_RIGHT = -6.5f;
-    public static final float DEVICE_MIN_ERROR = 2.5f;
 
     /** Binder given to clients of this service. */
     private final IBinder mBinder = new GravityControlsServiceBinder();
@@ -90,8 +95,6 @@ public class GravityControlsService extends Service implements SensorEventListen
      * @param intnet
      */
     private void handleCommand(Intent intent) {
-        //String action = intent.getAction();
-        
         final Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer != null) {
             mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
@@ -107,27 +110,23 @@ public class GravityControlsService extends Service implements SensorEventListen
         float valueY = event.values[1];
         float valueZ = event.values[2];
         
-        Log.d(TAG, String.format("X: %s Y: %s Z: %s", valueX, valueY, valueZ));
-        
         if (valueZ > DEVICE_MIN_FACE_UP) {
-            Log.d(TAG, "Face up!");
             if (mAudioManager.isMusicActive()) {
                 // Unmute the music stream!
                 mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
             }
         }
         if (valueZ < DEVICE_MIN_FACE_DOWN) {
-            Log.d(TAG, "Face down!");
             if (mAudioManager.isMusicActive()) {
                 // Mute the music stream!
                 mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
             }
         }
-        if (valueX > DEVICE_MIN_TILT_LEFT && ((valueY + valueZ) > DEVICE_MIN_ERROR)) {
-            Log.d(TAG, "Left tilt!");
+        if (valueX > DEVICE_MIN_TILT_LEFT) {
+            // Coming soon...
         }
-        if (valueX < DEVICE_MIN_TILT_RIGHT && ((valueY + valueZ) > DEVICE_MIN_ERROR)) {
-            Log.d(TAG, "Right tilt!");
+        if (valueX < DEVICE_MIN_TILT_RIGHT) {
+            // Coming soon...
         }
     }
 }
