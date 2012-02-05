@@ -16,4 +16,6 @@
     <string name="rate_the_app_summary">Please take a moment to rate the app in the Android Market.</string>
     <string name="send_feedback_title">Send feedback</string>
     <string name="send_feedback_summary">@null</string>
+    <string name="version_title">App version</string>
+    <string name="version_summary">@null</string>
 </resources>

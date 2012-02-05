@@ -12,6 +12,11 @@
     <PreferenceCategory
         android:title="@string/preference_category_about">
         <Preference
+            android:key="app_version"
+            android:title="@string/version_title"
+            android:summary="@string/version_summary"
+            android:enabled="false" />
+        <Preference
             android:key="rate_the_app"
             android:title="@string/rate_the_app_title"
             android:summary="@string/rate_the_app_summary" />
