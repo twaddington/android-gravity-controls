@@ -13,8 +13,8 @@ import android.widget.Button;
 
 import com.tristanwaddington.gravitycontrols.service.GravityControlsService;
 
-public class LauncherActivity extends Activity implements OnClickListener {
-    private final String TAG = "LauncherActivity";
+public class GravityControlsLauncherActivity extends Activity implements OnClickListener {
+    private final String TAG = "GravityControlsLauncherActivity";
     
     /** Called when the activity is first created. */
     @Override
@@ -55,7 +55,7 @@ public class LauncherActivity extends Activity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.preferences:
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, GravityControlsSettingsActivity.class);
             startActivity(intent);
             return true;
         }
