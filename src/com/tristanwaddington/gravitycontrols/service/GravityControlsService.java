@@ -36,6 +36,12 @@ public class GravityControlsService extends Service implements SensorEventListen
     /** Binder given to clients of this service. */
     private final IBinder mBinder = new GravityControlsServiceBinder();
 
+    /** True if a mute request was recently sent. */
+    private boolean mStreamMuteRequestSent = false;
+
+    /** True if an unmute request was recently sent. */
+    private boolean mStreamUnmuteRequestSent = false;
+
     private AudioManager mAudioManager;
     private SensorManager mSensorManager;
 
@@ -133,13 +139,13 @@ public class GravityControlsService extends Service implements SensorEventListen
         if (valueZ > DEVICE_MIN_FACE_UP) {
             if (mAudioManager.isMusicActive()) {
                 // Unmute the music stream!
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                setMute(false);
             }
         }
         if (valueZ < DEVICE_MIN_FACE_DOWN) {
             if (mAudioManager.isMusicActive()) {
                 // Mute the music stream!
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                setMute(true);
             }
         }
         if (valueX > DEVICE_MIN_TILT_LEFT) {
@@ -147,6 +153,25 @@ public class GravityControlsService extends Service implements SensorEventListen
         }
         if (valueX < DEVICE_MIN_TILT_RIGHT) {
             // Coming soon...
+        }
+    }
+    
+    /**
+     * Mute the {@link AudioManager#STREAM_MUSIC} stream. Rate limit
+     * the mute requests so we don't end up with stacked mute/unmute requests.
+     * 
+     * @param mute
+     */
+    public void setMute(boolean mute) {
+        if (mute && !mStreamMuteRequestSent) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+            mStreamMuteRequestSent = true;
+            mStreamUnmuteRequestSent = false;
+        }
+        if (!mute && !mStreamUnmuteRequestSent) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            mStreamMuteRequestSent = false;
+            mStreamUnmuteRequestSent = true;
         }
     }
 }
