@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -14,10 +15,16 @@ import android.util.Log;
 public class GravityControlsService extends Service implements SensorEventListener {
     public static final String TAG = "GravityControlsService";
 
+    public static final float DEVICE_MIN_FACE_UP = 8.5f;
+    public static final float DEVICE_MIN_FACE_DOWN = -8.5f;
+    public static final float DEVICE_MIN_TILT_LEFT = 6.5f;
+    public static final float DEVICE_MIN_TILT_RIGHT = -6.5f;
+    public static final float DEVICE_MIN_ERROR = 2.5f;
+
     /** Binder given to clients of this service. */
     private final IBinder mBinder = new GravityControlsServiceBinder();
 
-    /** Stub */
+    private AudioManager mAudioManager;
     private SensorManager mSensorManager;
 
     /**
@@ -35,7 +42,8 @@ public class GravityControlsService extends Service implements SensorEventListen
     public void onCreate() {
         super.onCreate();
         
-        // Get our sensor manager
+        // Get our service managers
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
     }
     
@@ -82,7 +90,7 @@ public class GravityControlsService extends Service implements SensorEventListen
      * @param intnet
      */
     private void handleCommand(Intent intent) {
-        String action = intent.getAction();
+        //String action = intent.getAction();
         
         final Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer != null) {
@@ -90,23 +98,36 @@ public class GravityControlsService extends Service implements SensorEventListen
         }
     }
 
-
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d(TAG, String.format("onAccuracyChanged for sensor %s (%d)",
-                        sensor.getName(), accuracy));
+        // Pass
     }
 
     public void onSensorChanged(SensorEvent event) {
-        // UP:   Z +9
-        // DOWN: Z -9
-        // LEFT TILT: X+9
-        // RIGHT TILT: X-9
+        float valueX = event.values[0];
+        float valueY = event.values[1];
+        float valueZ = event.values[2];
         
-        //Log.d(TAG, String.format("onSensorChanged for sensor %s",
-        //                event.sensor.getName()));
-        //Log.d(TAG, "SensorEvent: "+event);
-        //Log.d(TAG, "Values: "+event.values);
-        Log.d(TAG, String.format("X: %s, Y: %s, Z: %s",
-                        event.values[0], event.values[1], event.values[2]));
+        Log.d(TAG, String.format("X: %s Y: %s Z: %s", valueX, valueY, valueZ));
+        
+        if (valueZ > DEVICE_MIN_FACE_UP) {
+            Log.d(TAG, "Face up!");
+            if (mAudioManager.isMusicActive()) {
+                // Unmute the music stream!
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            }
+        }
+        if (valueZ < DEVICE_MIN_FACE_DOWN) {
+            Log.d(TAG, "Face down!");
+            if (mAudioManager.isMusicActive()) {
+                // Mute the music stream!
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+            }
+        }
+        if (valueX > DEVICE_MIN_TILT_LEFT && ((valueY + valueZ) > DEVICE_MIN_ERROR)) {
+            Log.d(TAG, "Left tilt!");
+        }
+        if (valueX < DEVICE_MIN_TILT_RIGHT && ((valueY + valueZ) > DEVICE_MIN_ERROR)) {
+            Log.d(TAG, "Right tilt!");
+        }
     }
 }

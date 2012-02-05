@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twaddington.android"
+    package="com.tristanwaddington.gravitycontrols"
     android:versionCode="1"
     android:versionName="1.0">
     
@@ -20,5 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <service android:name=".service.GravityControlsService" />
     </application>
 </manifest> 
