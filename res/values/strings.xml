@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GravityControls</string>
+    
+    <!-- Preferences strings -->
     <string name="preferences_title">Settings</string>
+    <string name="preference_category_general">General</string>
+    <string name="preference_category_about">About</string>
+    <string name="start_on_boot_title">Start on boot</string>
+    <string name="start_on_boot_summary">Start the background service when the device has finished booting.</string>
+    <string name="rate_the_app_title">Rate the app</string>
+    <string name="rate_the_app_summary">Please take a moment to rate the app in the Android Market.</string>
+    <string name="send_feedback_title">Send feedback</string>
+    <string name="send_feedback_summary">@null</string>
 </resources>

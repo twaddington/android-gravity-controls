@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/preference_category_general">
+        <CheckBoxPreference
+            android:key="com.tristanwaddington.gravitycontrols.START_ON_BOOT_KEY"
+            android:title="@string/start_on_boot_title"
+            android:summary="@string/start_on_boot_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/preference_category_about">
+        <Preference
+            android:key="rate_the_app"
+            android:title="@string/rate_the_app_title"
+            android:summary="@string/rate_the_app_summary" />
+        <Preference
+            android:key="send_feedback"
+            android:title="@string/send_feedback_title"
+            android:summary="@string/send_feedback_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>
