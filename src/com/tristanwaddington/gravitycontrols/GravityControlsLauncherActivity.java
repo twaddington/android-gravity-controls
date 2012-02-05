@@ -25,6 +25,8 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: Update the main layout background depending on the
+        //       state of the background service.
         setContentView(R.layout.main);
         
         mStartButton = (Button) findViewById(R.id.start_service);
@@ -87,7 +89,6 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         final List<ActivityManager.RunningServiceInfo> services = am.getRunningServices(250);
         
         for (ActivityManager.RunningServiceInfo s : services) {
-            Log.d(TAG, s.service.getClassName());
             if (GravityControlsService.class.getName().equals(s.service.getClassName())) {
                 return true;
             }
