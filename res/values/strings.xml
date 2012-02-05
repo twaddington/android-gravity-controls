@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">GravityControls</string>
     
+    <!-- Buttons -->
+    <string name="start_button_text">Start</string>
+    <string name="stop_button_text">Stop</string>
+    
     <!-- Preferences strings -->
     <string name="preferences_title">Settings</string>
     <string name="preference_category_general">General</string>

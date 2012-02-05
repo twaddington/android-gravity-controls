@@ -27,10 +27,6 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         
         Button stopButton = (Button) findViewById(R.id.stop_service);
         stopButton.setOnClickListener(this);
-        
-        Button pauseButton = (Button) findViewById(R.id.pause);
-        pauseButton.setEnabled(false);
-        pauseButton.setOnClickListener(this);
     }
 
     @Override
@@ -72,9 +68,6 @@ public class GravityControlsLauncherActivity extends Activity implements OnClick
         case R.id.stop_service:
             Log.d(TAG, "Stop button!");
             stopService(intent);
-            break;
-        case R.id.pause:
-            Log.d(TAG, "Pause Music");
             break;
         default:
             Log.d(TAG, "Button not implemented yet...");
